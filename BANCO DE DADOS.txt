@@ -1,0 +1,225 @@
+BANCO DE DADOS
+
+SGBD - Sistema de Gerenciamento de Banco de Dados.
+
+Composição:
+	- Tabelas: lugar onde os dados são armazenados.
+
+	- Campos (colunas/atributos): mantém informações específicas para os registros.
+		Ex.: nome, data de nascimento, preço...
+
+	- Registros (linhas/tuplas): conjunto de campos relacionados que caracterizam os dados de uma única entidade.
+
+
+
+STRUCTERED QUERY LANGUAGE (SQL)::------------------------------------
+
+- Linguagem de Consulta Estruturada padrão para acesso de banco de dados.
+
+- Definição e manipulação de dados.
+
+- POde ser embutido em outras linguagens.
+
+- Permite configurações de acesso.
+
+- Permite criação e exclusão de banco de dados e tabelas.
+
+
+
+MySQL::------------------------------------
+
+- É um SGBDR.
+
+- Forma padrão da linguagem SQL.
+
+
+Grupos de Comandos::------------------------------------
+
+DDL: Data Definition Language > Infraestrutura do BD
+	CREATE (cria objeto)
+	ALTER (modifica objeto)
+	DROP (exclui objeto)
+
+
+DML: Data Manipulation Language 
+	INSERT: cria um registro (linha).
+	UPDATE: modifica registros.
+	DELETE: exclui registros.
+
+
+DCL: Data Control Language > Controle de Acesso aos Dados
+	GRANT: dá acesso.
+	REVOKE: retira acesso.
+
+
+DQL: Data Query Language > Consulta
+	SELECT: obtém registros especificos de uma ou mais tabelas.
+	
+
+
+Criar Banco de Dados::------------------------------------
+
+	CREATE DATABASE <nome do banco>;
+			db_Biblioteca;
+
+
+
+
+Verificar Bancos de dados Existentes::------------------------------------
+
+	SHOW DATABASES;
+
+		Instruir o SGBDR a utilizar o banco de dados especificado para rodar os comandos:
+
+			USE <nome do banco de dados>;
+	
+	Visualizar o banco de dados selecionado no momento:
+
+		SELECT DATABASE();
+
+
+
+
+Excluir Banco de Dados::------------------------------------	
+	DROP DATABASE <nome do banco>;
+
+
+
+
+Mostrar tabelas Criadas::------------------------------------
+
+	SHOW TABLES;
+
+
+
+
+Restrições (Constraints)::------------------------------------
+
+	- Regras aplicadas nas colunas de uma tabela.
+	- Limita os tipos de dados que serão inseridos.
+	- Podem ser especificadas depois ou durante a criação da tabela: ALTER e CREATE.
+
+	
+	Principais: 
+		NOT NULL;
+			Impõe a uma coluna a NÃO aceitar valores NULL.
+
+
+
+		UNIQUE;
+			Impede repetição de dados na coluna.
+			Ex.: uma coluna para guardar CPF.
+
+
+
+
+		PRIMARY KEY;
+			Valor sempre único: não pode ter valor nulo.
+			Cada tabela deve ter apenas uma chave primária.
+
+
+
+		FOREIGN KEY;
+			Campo que aponta para uma chave primária em outra tabela.
+			- Relacionamento entre tabelas.
+
+			Ex.: 
+				CONSTRAINT <nome> FOREIGN KEY (<nome da coluna>) REFERENCES <nome da tabela onde está a PK>(<nome da coluna>)
+		
+
+
+		DEFAULT;
+			Inserir Valor Padrão será adicionado a todos os novos registros caso nenhum outro valor seja especificado.
+		
+
+
+		AUTO_INCREMENT:
+			- Permite que um número único seja gerado quando um novo registro é inserido em uma tabela.
+			- Valor inicial padrão é 1, e se incrementa em 1.
+
+			Verificar valor atual do auto incremento:
+				SELECT MAX(nome_coluna)
+				FROM tabela
+
+			Alterar o próximo valor no campo de Auto-Incremento:
+			ALTER TABLE tabela AUTO_INCREMENT = valor;
+
+
+
+
+
+Criar Tabelas::------------------------------------
+
+CREATE TABLE [IF NOT EXISTS] nome_tabela (
+	coluna tipo_dados constraints
+)
+
+
+
+
+Tipos de Dados::------------------------------------
+
+	- INT: entre 2BI
+
+	- TINYINT: - 128 a 127
+
+	- SMALLINT: -32768 a 32767
+
+	- MEDIUMINT: -8388608 a 8388607
+
+	- BIGINT: 9 quintilhões
+
+	- DECIMAL(M,D): 'M' Dígitos no total (precisão) e D casas decimais (escala); M vai até 65 e D até 30; Padrão: 10,0
+
+	- FLOAT(M,D): Padrão: 10,2; D vai até 24.
+
+	- CHAR(M): String de tamanho fixo entre 0 e 255;
+
+	- BOOL/BOOLEAN: Valores binários 0/1;
+
+	- VARCHAR(M): String de tamanho variável, até 65535 carac.
+	- BLOB/MEDIUMBLOB/TINYBLOB: tam. max. 65535 carac. binário; Binary Large Objects; Grandes quantidades de dados, como imagens;
+
+	- MEDIUMTEXT: 16.777.215 carac.
+
+	- LONGTEXT: 4.294.967.295 carac.
+
+	- DATE: 01/01/1000 a 31/12/9999, formato YYYY/MM/DD.
+
+	- DATETIME: DATA + HORA.
+
+	- TIME: Hora: 00:00:00 a 23:59:59; Formato: HH:MM:SS.
+	
+	- YEAR: formato de 2 ou 4 digitos. 2 (YEAR(2)): 1970 a 2069; 4(YEAR(4)): 1901 a 2155.
+	
+
+Alterar Tabelas::------------------------------------
+
+	ALTER TABLE - DROP: excluir colunas
+		Ex.:
+			ALTER TABLE tabela
+			DROP COLUMN coluna;
+
+		Excluir chave primária:
+			ALTER TABLE tabela
+			DROP PRIMARY KEY;
+
+
+	ALTER TABLE - ADD: adicionar colunas
+		Ex.:
+			ALTER TABLE tabela
+			ADD coluna tipo_dados constraints;
+
+
+	ALTER TABLE - ALTER COLUMN: alterar colunas
+		Ex.: mudando tipo de dados
+			ALTER TABLE tbl_livro
+			ALTER COLUMN id_autor SMALLINT;
+
+
+	ALTER TABLE - ADD PK
+		Ex.: 
+			ALTER TABLE clientes
+			ADD PRIMARY KEY (id_cliente)
+	
+		
