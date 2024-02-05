@@ -222,4 +222,86 @@ Alterar Tabelas::------------------------------------
 			ALTER TABLE clientes
 			ADD PRIMARY KEY (id_cliente)
 	
+
+Inserir Dados::------------------------------------
+
+	Inserir dados em tabela:
+
+		INSERT INTO tabela (coluna1, coluna2, ...)
+		VALUES (valor1, valor2, ...);
+
+
+
+Consultas Simples::------------------------------------
+
+	SELECT coluna FROM tabela;
+
+		Ex.1: retorna os nomes dos autores da tabela autores.
+
+			SELECT nome_autor FROM tbl_autores;
 		
+
+		Ex.2: mostra a tabela inteira.
+
+			SELECT * FROM tbl_autores;
+
+
+		Ex.3: especificando colunas.
+			
+			SELECT nome_livro, id_autor FROM tbl_livro;
+			
+
+
+Consulta com Ordenação::------------------------------------
+
+	ORDER BY: ordena o conjunto-resultado de registros.
+
+	ASC: crescente.
+	DESC: descendente.
+
+	Ex.: 
+		SELECT * FROM tbl_livro
+		ORDER BY nome_livro ASC;
+		
+
+Indexação::------------------------------------
+
+	Usado para encontrar registros.
+
+	Índicies automáticos:
+		- Chave Primária
+		- Chave Extrangeira
+		- Constraint Unique
+
+	Índice Clusterizado:
+		- Altera fisicamente a ordem dos dados.
+
+	Índice Não-Clusterizado:
+		- Obejto separado é criado na tabela, apontando para as linhas da tabela original após a busca.
+		- Baseia-se em valores-chave.
+		- Uma tabela pode ter vários índices.
+
+	
+	Sintaxe: tabela ja existente.
+	
+		CREATE INDEX:
+
+			CREATE [UNIQUE] INDEX nome_indice
+			ON nome_tabela (
+				coluna1 [ASC | DESC] --indexar de forma crescente ou decrescente (opcional)
+			);
+
+
+			OBS: UNIQUE é usado para indice que não permite repetição de dados.
+
+		ALTER TABLE / ADD INDEX:
+			ALTER TABLE nome_tabela ADD INDEX nome_indice (colunas);
+
+
+
+	Mostrar indices de uma tabela:
+		
+		SHOW INDEX FROM tabela;
+
+	Excluir indice:
+		DROP INDEX nome_indice ON nome_tabela
