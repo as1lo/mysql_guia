@@ -150,9 +150,9 @@ Restrições (Constraints)::------------------------------------
 
 Criar Tabelas::------------------------------------
 
-CREATE TABLE [IF NOT EXISTS] nome_tabela (
-	coluna tipo_dados constraints
-)
+	CREATE TABLE [IF NOT EXISTS] nome_tabela (
+		coluna tipo_dados constraints
+	)
 
 
 
@@ -193,6 +193,8 @@ Tipos de Dados::------------------------------------
 	- YEAR: formato de 2 ou 4 digitos. 2 (YEAR(2)): 1970 a 2069; 4(YEAR(4)): 1901 a 2155.
 	
 
+
+
 Alterar Tabelas::------------------------------------
 
 	ALTER TABLE - DROP: excluir colunas
@@ -221,7 +223,18 @@ Alterar Tabelas::------------------------------------
 		Ex.: 
 			ALTER TABLE clientes
 			ADD PRIMARY KEY (id_cliente)
-	
+
+
+	ALTER TABLE - RENAME TO: alterar nome da tabela.
+		Ex.:
+			ALTER TABLE clientes RENAME TO tbl_clientes;
+
+
+	ALTER TABLE - CHANGE: alterar nome 
+		Ex.:
+			ALTER TABLE nome_da_tabela CHANGE nome_antigo nome_novo tipo_de_dados;
+
+
 
 Inserir Dados::------------------------------------
 
@@ -229,6 +242,7 @@ Inserir Dados::------------------------------------
 
 		INSERT INTO tabela (coluna1, coluna2, ...)
 		VALUES (valor1, valor2, ...);
+
 
 
 
@@ -252,6 +266,7 @@ Consultas Simples::------------------------------------
 			
 
 
+
 Consulta com Ordenação::------------------------------------
 
 	ORDER BY: ordena o conjunto-resultado de registros.
@@ -263,6 +278,8 @@ Consulta com Ordenação::------------------------------------
 		SELECT * FROM tbl_livro
 		ORDER BY nome_livro ASC;
 		
+
+
 
 Indexação::------------------------------------
 
@@ -305,3 +322,168 @@ Indexação::------------------------------------
 
 	Excluir indice:
 		DROP INDEX nome_indice ON nome_tabela
+
+
+
+
+Filtrar Registros em Consulta::------------------------------------
+
+	Sintaxe: SELECT colunas FROM tabela WHERE coluna = valor;
+		
+	SELECT nome_livro, data_pub FROM tbl_livro
+	WHERE id_autor = 1;
+
+
+	Ex.: busca em tabelas diferentes e sufixo de string
+
+		SELECT products.id, products.name
+		FROM products
+		JOIN categories ON products.id_categories = categories.id
+		WHERE categories.name LIKE 'super%';
+
+	Ex.: busca por data especifica
+
+		SELECT customers.name, rentals.rentals_date
+		FROM rentals
+		JOIN customers ON rentals.id_customers = customers.id
+		WHERE EXTRACT(YEAR FROM rentals.rentals_date) = 2016
+		AND EXTRACT(MONTH FROM rentals.rentals_date) = 09;
+
+
+Deletar Registros::------------------------------------
+
+	DELETE FROM tabela WHERE coluna = valor;
+		
+		Ex.:
+			DELETE FROM tbl_livros WHERE id_livro = 1;
+			
+			DELETE FROM tbl_livros WHERE id_livro IN (5, 6, 4);
+
+
+
+	Excluir todos os registros de uma tabela:
+		
+		TRUNCATE TABLE nome_da_tabela;
+	
+
+
+
+Filtragem com Mais de uma Condição::------------------------------------
+
+	AND, OR e NOT;
+
+	Ex.: 
+		SELECT * FROM tbl_livros
+		WHERE id_livro > 2 AND id_autor < 3;
+	
+		SELECT * FROM tbl tbl_livros
+		WHERE id_livro > 2 OR id_autor < 3;
+
+		SELECT * FROM tbl_livros
+		WHERE id_livro > 2 AND NOT id_autor < 3;
+		
+
+
+
+Filtragem com listas de valores::------------------------------------
+
+	Sintaxe:
+		SELECT coluna(s)
+		FROM tabela(s)
+		WHERE expressão ou valor IN/NOT IN (lista) 
+
+	Ex.: 
+		SELECT NomeeLivro, IdEditora
+		FROM tbl_livro
+		WHERE idEditora IN (2,4)		
+
+	Ex.:
+		SELECT NomeLivro, IdEditora
+		FROM tbl_livro
+		WHERE IdEditora IN (
+			SELECT IdEditora
+			FROM tbl_editora
+			WHERE NomeEditora = 'Wiley' OR NomeEditora = 'Microsoft Press');
+	
+
+	Ex.:
+		SELECT products.name, providers.name
+		FROM products
+		JOIN providers ON products.id_providers = providers.id
+		WHERE products.id_categories = 6;
+
+
+
+
+SQL Alias::------------------------------------
+
+	Dar nome diferente a uma coluna ou tabela em uma consulta.
+
+	SELECT colunas
+	AS alias_coluna	
+	FROM tabela AS alias_tabela;
+
+	SELECT Nome_Livro
+	AS Livro
+	FROM tbl_Livro;
+
+
+
+
+Funções de Agregação::------------------------------------
+
+	Retornam um valor único baseado en um conjunto de valores.
+
+	Sintaxe:
+		função(ALL | DISTINCT expressão)
+	
+	Funções:
+		MIN (valor mínimo)
+		MAX (valor máximo)
+		AVG (Média Aritmética)
+		SUM (Total (soma))
+		COUNT (contar quantidade de itens) 
+
+	Ex.: 
+		SELECT COUNT(*) FROM tbl_autores;
+
+		SELECT COUNT(DISTINCT id_autor) FROM tbl_livro;
+
+		SELECT  coluna_fixa_opcional, SUM(coluna1), SUM(coluna2) FROM nome_da_tabela;
+
+
+
+
+Renomear Tabela::------------------------------------
+
+	RENAME TABLE - TO
+
+		Ex.:
+			RENAME TABLE tabela1 TO tabela2;
+
+
+
+
+Atualizar Registros::------------------------------------
+
+	UPDATE tabela
+	SET coluna = novo_valor_armazenado
+	WHERE coluna = valor_filtro
+
+	OBS: sem o WHERE todos os registros da coluna serão alterados.
+
+	Ex.:
+		UPDATE tbl_livros
+		SET nome_livro = 'SSH, o shell seguro'
+		WHERE id_livro = 2;
+
+
+Agrupar Resultados pelo nome da Categoria::------------------------------------
+
+	GROUP BY
+	
+	Ex.:
+		SELECT c.name AS name, SUM(p.amount) AS sum
+		FROM products p
+		JOIN categories c ON p.id_categories = c.id
+		GROUP BY c.name;
