@@ -432,7 +432,7 @@ SQL Alias::------------------------------------
 
 Funções de Agregação::------------------------------------
 
-	Retornam um valor único baseado en um conjunto de valores.
+	Retornam um valor único baseado em um conjunto de valores.
 
 	Sintaxe:
 		função(ALL | DISTINCT expressão)
@@ -478,7 +478,10 @@ Atualizar Registros::------------------------------------
 		WHERE id_livro = 2;
 
 
+
 Agrupar Resultados pelo nome da Categoria::------------------------------------
+
+	Geralmente usado junto com Funções Agregadas.
 
 	GROUP BY
 	
@@ -487,3 +490,13 @@ Agrupar Resultados pelo nome da Categoria::------------------------------------
 		FROM products p
 		JOIN categories c ON p.id_categories = c.id
 		GROUP BY c.name;
+
+
+
+Seleção de Intervalos::------------------------------------
+	
+	BETWEEN
+	
+	SELECT colunas FROM tabela
+	WHERE coluna BETWEEN valor1 AND valor2;
+
