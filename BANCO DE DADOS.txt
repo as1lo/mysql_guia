@@ -25,14 +25,6 @@ STRUCTERED QUERY LANGUAGE (SQL)::------------------------------------
 - Permite criação e exclusão de banco de dados e tabelas.
 
 
-
-MySQL::------------------------------------
-
-- É um SGBDR.
-
-- Forma padrão da linguagem SQL.
-
-
 Grupos de Comandos::------------------------------------
 
 DDL: Data Definition Language > Infraestrutura do BD
@@ -499,4 +491,46 @@ Seleção de Intervalos::------------------------------------
 	
 	SELECT colunas FROM tabela
 	WHERE coluna BETWEEN valor1 AND valor2;
+
+
+
+Padrões de caracteres em consulta::------------------------------------
+	
+	LIKE
+
+	'%' (qualquer cadeia de 0 ou mais caracteres)
+	'_' (sublinhado: qualquer caracter único)
+
+	Ex.:
+		SELECT * FROM tbl_livro
+		WHERE Nome_Livro LIKE 'F%';
+
+		SELECT * FROM tbl_livro
+		WHERE Nome_Livro NOT LIKE 'S%';
+
+		SELECT Nome_Livro
+		FROM tbl_Livro
+		WHERE Nome_Livro LIKE '_i%'; #não importa o
+
+
+Triggers  ::------------------------------------
+
+	Automatizar comandos DML (insert, delete, update).
+
+	CREATE TRIGGER nome [timing] [operação]
+	ON tabela
+	FOR EACH ROW
+	[declarações]
+
+	timing = BEFORE | AFTER
+	operação = INSERT | UPDATE | DELETE
+
+
+	Ex.:
+		CREATE TRIGGER tr_desconto BEFORE INSERT
+		ON produto
+		FOR EACH ROW
+		SET NEW.preco_desconto = (NEW.preco_normal * 0.9);
+
+	INSERT INTO produto (nome_produto, preco_normal
 
