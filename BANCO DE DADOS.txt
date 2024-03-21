@@ -25,6 +25,14 @@ STRUCTERED QUERY LANGUAGE (SQL)::------------------------------------
 - Permite criação e exclusão de banco de dados e tabelas.
 
 
+
+MySQL::------------------------------------
+
+- É um SGBDR.
+
+- Forma padrão da linguagem SQL.
+
+
 Grupos de Comandos::------------------------------------
 
 DDL: Data Definition Language > Infraestrutura do BD
@@ -534,3 +542,48 @@ Triggers  ::------------------------------------
 
 	INSERT INTO produto (nome_produto, preco_normal
 
+Procedure ::------------------------------------
+
+	Sub-rotina disponível para aplicações que acessam sistemas de bancos de dados relacionais.
+	
+	Podem ser usadas para a validação de dados, controle de acesso, execução de declarações SQL complexas e outras situações.
+
+	Modifica dados do banco de dados.
+	Sintaxe:
+		CREATE PROCEDURE nome_procedimento (parâmetros)
+		declarações;
+
+		OBS: parâmetros são opcionais.
+	Invocando:
+		CALL nome_procedimento (argumentos);
+
+	Ex.: simples:
+
+		CREATE PROCEDURE verPreço (varLivro smallint)
+		SELECT CONCAT('O preço é ', Preco_Livro) AS Preço
+		FROM tbl_Livro
+		WHERe ID_Livro = varLivro;
+		
+		CALL verPreço(3);
+
+		DROP PROCEDURE nome_procedimento;
+
+	Ex.: com if else
+		CREATE PROCEDURE verificar_idade(IN cliente_id INT)
+		BEGIN
+   		DECLARE idade_cliente INT;
+
+  		-- Obter a idade do cliente
+   		SELECT idade INTO idade_cliente FROM clientes WHERE id = cliente_id;
+
+    		-- Verificar se o cliente tem idade suficiente
+    		IF idade_cliente >= 18 THEN
+        		SELECT 'Cliente tem idade suficiente para comprar álcool';
+    		ELSE
+        		SELECT 'Cliente não tem idade suficiente para comprar álcool';
+    		END IF;
+		END //
+
+Funções ::------------------------------------
+	
+	Usadas para realizar cálculos e retornar valores específicos.
